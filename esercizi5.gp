@@ -70,3 +70,27 @@ es2() =
 	return(n);
 }
 
+
+/**
+ * 3. Generatori di F_(3^4)[x]/(x^4+x^3+x^2+x+1) =~ GF(81)^* =~ C_80  (54 = eulerphi(80)).
+ */
+
+es3() =
+{
+	local(ps, gs);
+
+	ps = Set();
+	forvec(X = [[0,2], [0,2], [0,2], [0,2], [0,2]],
+		p = Mod(X, 3)*[1, yy, yy^2, yy^3, yy^4]~;
+		ps = setunion(ps, Set(p))
+	);
+	ps = eval(vecsort(ps));
+
+	gs = Set();
+	for(i = 1, length(ps), if(cercaperiodo(ps[i], 80) == 80, gs=setunion(gs, Set(ps[i]))));
+	gs = eval(vecsort(gs));
+
+	print("trovati ", length(gs), " polinomi che generano GF(81)^*");
+	for(i = 1, length(gs), print(lift(lift(gs[i]))));
+}
+
