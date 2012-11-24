@@ -12,30 +12,30 @@
 
 sn(n) =
 {
-	local(periodi, occorrenze, permutazioni);
+    local(periodi, occorrenze, permutazioni);
 
-	ordine = n!;
+    ordine = n!;
 
-	periodi = Set();
-	occorrenze = vector(sigma(ordine, 0));
-	permutazioni = vector(sigma(ordine, 0), i, []);
+    periodi = Set();
+    occorrenze = vector(sigma(ordine, 0));
+    permutazioni = vector(sigma(ordine, 0), i, []);
 
-	for(i = 1, ordine,
-		p = Vecsmall(numtoperm(n, i));
-		id = Vecsmall(vector(n, i, i));
+    for(i = 1, ordine,
+        p = Vecsmall(numtoperm(n, i));
+        id = Vecsmall(vector(n, i, i));
 
-		k = 1;
-		until(p^k == id, k++);
+        k = 1;
+        until(p^k == id, k++);
 
-		periodi = setunion(periodi, Set(k));
-		occorrenze[k] += 1;
-		permutazioni[k] = concat(permutazioni[k], [Vec(p)]);
-	);
+        periodi = setunion(periodi, Set(k));
+        occorrenze[k] += 1;
+        permutazioni[k] = concat(permutazioni[k], [Vec(p)]);
+    );
 
-	periodi = vecsort(eval(periodi));
-	occorrenze = vecextract(occorrenze, periodi);
-	permutazioni = vecextract(permutazioni, periodi);
-	return(concat(concat(Mat(periodi)~, Mat(occorrenze)~), Mat(permutazioni)~));
+    periodi = vecsort(eval(periodi));
+    occorrenze = vecextract(occorrenze, periodi);
+    permutazioni = vecextract(permutazioni, periodi);
+    return(concat(concat(Mat(periodi)~, Mat(occorrenze)~), Mat(permutazioni)~));
 }
 
 
@@ -45,10 +45,10 @@ sn(n) =
 
 es1() =
 {
-	local(s7);
-	s7 = sn(7);
+    local(s7);
+    s7 = sn(7);
 
-	return(Mat([s7[,1], s7[,2]]));
+    return(Mat([s7[,1], s7[,2]]));
 }
 
 
@@ -58,16 +58,16 @@ es1() =
 
 es2() =
 {
-	local(s7, n);
-	s7 = sn(7);
+    local(s7, n);
+    s7 = sn(7);
 
-	periodi = s7[,1]~;
-	occorrenze = s7[,2]~;
+    periodi = s7[,1]~;
+    occorrenze = s7[,2]~;
 
-	n = 0;
-	for(i = 1, length(periodi), if(periodi[i]%2 == 1, n += occorrenze[i]));
+    n = 0;
+    for(i = 1, length(periodi), if(periodi[i]%2 == 1, n += occorrenze[i]));
 
-	return(n);
+    return(n);
 }
 
 
@@ -77,20 +77,20 @@ es2() =
 
 es3() =
 {
-	local(ps, gs);
+    local(ps, gs);
 
-	ps = Set();
-	forvec(X = [[0,2], [0,2], [0,2], [0,2], [0,2]],
-		p = Mod(X, 3)*[1, yy, yy^2, yy^3, yy^4]~;
-		ps = setunion(ps, Set(p))
-	);
-	ps = eval(vecsort(ps));
+    ps = Set();
+    forvec(X = [[0,2], [0,2], [0,2], [0,2], [0,2]],
+        p = Mod(X, 3)*[1, yy, yy^2, yy^3, yy^4]~;
+        ps = setunion(ps, Set(p))
+    );
+    ps = eval(vecsort(ps));
 
-	gs = Set();
-	for(i = 1, length(ps), if(cercaperiodo(ps[i], 80) == 80, gs=setunion(gs, Set(ps[i]))));
-	gs = eval(vecsort(gs));
+    gs = Set();
+    for(i = 1, length(ps), if(cercaperiodo(ps[i], 80) == 80, gs=setunion(gs, Set(ps[i]))));
+    gs = eval(vecsort(gs));
 
-	print("trovati ", length(gs), " polinomi che generano GF(81)^*");
-	for(i = 1, length(gs), print(lift(lift(gs[i]))));
+    print("trovati ", length(gs), " polinomi che generano GF(81)^*");
+    for(i = 1, length(gs), print(lift(lift(gs[i]))));
 }
 
