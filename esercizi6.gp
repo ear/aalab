@@ -25,13 +25,13 @@ test(n) = lift(lift(polinomio(n,campo(n)))) == 0;
 
 es1() =
 {
-	local(ns);
+    local(ns);
 
-	ns = List();
-	for(n = 3, 10000, if((n%5!=0) && !isprime(n) && test(n), listput(ns, n)));
-	ns = Vec(ns);
+    ns = List();
+    for(n = 3, 10000, if((n%5!=0) && !isprime(n) && test(n), listput(ns, n)));
+    ns = Vec(ns);
 
-	return(ns);
+    return(ns);
 }
 
 /* [2737, 4181, 5777, 6721]
@@ -50,17 +50,17 @@ es1() =
 
 generatori(p, e) =
 {
-	local(f, y, coprimi, generatori);
+    local(f, y, coprimi, generatori);
 
-	f = primpoly(p, e, x);
-	y = Mod(Mod(1,p)*x, f);
+    f = primpoly(p, e, x);
+    y = Mod(Mod(1,p)*x, f);
 
-	coprimi=List();
-	for(i=2, 80, if(gcd(80,i)==1, listput(coprimi,i)));
-	coprimi = vecsort(Vec(coprimi));
+    coprimi=List();
+    for(i=2, 80, if(gcd(80,i)==1, listput(coprimi,i)));
+    coprimi = vecsort(Vec(coprimi));
 
-	generatori = apply((i)->y^i, coprimi);
+    generatori = apply((i)->y^i, coprimi);
 
-	return(generatori);
+    return(generatori);
 }
 
