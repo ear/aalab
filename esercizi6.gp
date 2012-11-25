@@ -17,28 +17,30 @@
  * la  y^(2p) - y^p - 1 = 0  e non sono primi.
  */
 
-polinomio(n,x) = x^(2*n) - x^n - 1;
-
-campo(n) = Mod( Mod(1,n) * x, x^2 - x - 1 );
-
-test(n) = lift(lift(polinomio(n,campo(n)))) == 0;
-
-es1() =
+es1(limite = 10000) =
 {
-    local(ns);
+    my(
+        numeri = List(),
+        polinomio(n,x) = x^(2*n)-x^n-1,
+        radice(n) = Mod(Mod(1,n)*x, x^2-x-1),
+        test(n) = lift(lift(polinomio(n,radice(n)))) == 0
+    );
 
-    ns = List();
-    for(n = 3, 10000, if((n%5!=0) && !isprime(n) && test(n), listput(ns, n)));
-    ns = Vec(ns);
+    for(n = 3, limite,
+        if((n%5!=0) && !isprime(n) && test(n), listput(numeri, n))
+    );
 
-    return(ns);
+    return(Vec(numeri));
 }
 
 /* [2737, 4181, 5777, 6721]
  *
- * usando allocatemem() tre volte e alzando il limite a 200000 ho trovato che;
- * (1) tutti questi numeri sono liberi da quadrati
- * (2) il primo della lista con più di 3 fattori è 179697
+ * due osservazioni
+ *
+ *  (1) tutti i numeri trovati sono liberi da quadrati, è un caso?
+ *      ho controllato fino a 2 milioni e lo sono tutti
+ *  (2) il primo della lista con più di 3 fattori è 179697 come si può
+ *      vedere con factor(es1(180000))
  */
 
 
