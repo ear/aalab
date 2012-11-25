@@ -38,7 +38,7 @@ es1(limite = 10000) =
  * due osservazioni
  *
  *  (1) tutti i numeri trovati sono liberi da quadrati, è un caso?
- *      ho controllato fino a 2 milioni e lo sono tutti
+ *      ho controllato fino a 4 milioni e lo sono tutti
  *  (2) il primo della lista con più di 3 fattori è 179697 come si può
  *      vedere con factor(es1(180000))
  */
