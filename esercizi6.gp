@@ -60,7 +60,7 @@ generatori(p, e) =
     for(i=1, ordine, if(gcd(ordine,i) == 1, listput(coprimi,i)));
     coprimi = vecsort(Vec(coprimi));
 
-    generatori = apply((i)->y^i, coprimi);
+    generatori = apply(i->y^i, coprimi);
 
     return(generatori);
 }
