@@ -50,13 +50,14 @@ es1() =
 
 generatori(p, e) =
 {
-    local(f, y, coprimi, generatori);
+    my(f, y, ordine, coprimi, generatori);
 
     f = primpoly(p, e, x);
     y = Mod(Mod(1,p)*x, f);
 
-    coprimi=List();
-    for(i=2, 80, if(gcd(80,i)==1, listput(coprimi,i)));
+    ordine = p^e - 1;
+    coprimi = List();
+    for(i=1, ordine, if(gcd(ordine,i) == 1, listput(coprimi,i)));
     coprimi = vecsort(Vec(coprimi));
 
     generatori = apply((i)->y^i, coprimi);
