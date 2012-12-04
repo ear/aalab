@@ -74,3 +74,61 @@ pincidenza(p, e) =
 addhelp(pincidenza, "pincidenza(p,e): restituisce la matrice di incidenza del piano proiettivo generato dal campo F_q con q=p^e.")
 
 
+/**
+ * 5. In un esame vengono assegnati agli studenti complessivamente 36 problemi.
+ * Ad ogni studente sono dati 6 problemi, e ogni coppia di problemi va
+ * esattamente a due studenti. Quanti sono gli studenti?
+ *
+ *   v=36, k=6, l=2: r(6-1) = 2(36-1)
+ *
+ *   r = 2*35/5 = 14 studenti
+ */
+
+
+/**
+ * 6. Ci sono 13 persone. È possibile creare 13 gruppi in modo tale che:
+ *  (1) Ogni gruppo contiene 4 persone.
+ *  (2) Due gruppi hanno esattamente una persona in comune.
+ *  (3) Due persone hanno un solo gruppo in comune.
+ * Motivare la risposta teoricamente.
+ * Nel caso di risposta sì:
+ *  4) A quanti gruppi appartiene una persona?
+ *  5) Si dia una risposta effettiva, identificando le persone con
+ *     i numeri 1, …, 13.
+ *
+ *  Siamo alla ricerca di un (13,4,1)-design (v = 13, k = 4, l = 1).
+ *
+ *  Questo corrisponde al piano proiettivo finito di ordine 3 PG(2,3)
+ *  perché in esso abbiamo:
+ *
+ *    (13 persone) 3^2 + 3 + 1 = 13 rette
+ *    (1) 3 + 1 = 4 punti su ogni retta
+ *    (2) ogni coppia di rette si interseca in un punto
+ *    (3) ogni coppia di punti individua un'unica retta
+ *
+ *  4) Ogni persona appartiene a 4 gruppi, perché per ogni punto di PG(2,3)
+ *  passano 4 rette. (Oppure perché ogni elemento dell'insieme base compare
+ *  in r blocchi, con r(k-1) = l(v-1), r = (13-1)/(4-1) = 4.)
+ *
+ *  5) ? \r aalab-funzioni
+ *     ? \r esercizi7
+ *     ? tredici()
+ *     %37 = [[10, 11, 12, 13], [3, 6, 9, 10], [2, 5, 8, 10], [7, 8, 9, 13],
+ *               [3, 5, 7, 11], [2, 6, 7, 12], [4, 5, 6, 13], [3, 4, 8, 12], 
+ *               [2, 4, 9, 11], [1, 2, 3, 13], [1, 5, 9, 12], [1, 6, 8, 11],
+ *               [1, 4, 7, 10]]
+ *
+ */
+
+tredici() =
+{
+    my(
+        pg23    = pincidenza(3, 1),
+        numbers = vector(13, i, i),
+        powers  = vector(13, k, 2^(k-1)),
+        bitmask(bits) = bits*powers~
+    );
+    return(vector(13, i, vecextract(numbers, bitmask(pg23[i,]))));
+}
+
+
