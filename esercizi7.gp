@@ -25,6 +25,27 @@ addhelp(fglatin, "fglatin(p,e): restituisce i p^e - 1 quadrati latini ortogonali
 
 
 /**
+ * 2. aincidenza(p,e): restituisce la matrice di incidenza del piano affine
+ * generato dal campo F_q, con q = p^e.
+ */
+
+aincidenza(p, e) =
+{
+    my(
+        m = pincidenza(p, e),
+
+        q = p^e,
+        n = q^2 + q + 1,
+
+        powers = vector(n,k,2^(k-1)),
+        bitmask(bits) = bits*powers~,
+        row(i) = vecextract(m[i,],bitmask(vector(n,k,m[n,k]*m[i,k]==0)))
+    );
+    return(matrix(n-1,n-1,i,j,row(i)[j]));
+}
+
+
+/**
  * 3. pincidenza(p,e): restituisce la matrice di incidenza del piano proiettivo
  * generato dal campo F_q, con q = p^e.
  */
