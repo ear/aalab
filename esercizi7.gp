@@ -56,7 +56,7 @@ pincidenza(p, e) =
         q = p^e,
         fq = campop(p, e, X),
 
-        pairs(xs) = concat(vector(length(xs),i,vector(length(xs),j,[xs[i],xs[j]]))),
+        pairs(xs) = concat(vector(#xs, i, vector(#xs, j, [xs[i],xs[j]]))),
 
         points = concat([
             apply((yz -> concat(fq[q],yz)), pairs(fq)),  \\ [1,y,z]
@@ -67,7 +67,7 @@ pincidenza(p, e) =
         line(i) = points[i],
 
         scalar(v,w) = v*w~,
-        pg2q = matrix(q^2+q+1, q^2+q+1, i, j, scalar(line(i),point(j)) == 0)
+        pg2q = matrix(q^2+q+1, q^2+q+1, i, j, scalar(line(i), point(j)) == 0)
     );
     return(pg2q);
 }
