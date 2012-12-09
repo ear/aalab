@@ -48,7 +48,7 @@ aincidenza(p, e) =
     );
     return(paq);
 }
-
+addhelp(aincidenza, "aincidenza(p,e): restituisce la matrice di incidenza del piano affine finito generato dal campo F_q con q=p^e.")
 
 /**
  * 3. pincidenza(p,e): restituisce la matrice di incidenza del piano proiettivo
@@ -76,7 +76,7 @@ pincidenza(p, e) =
     );
     return(pg2q);
 }
-addhelp(pincidenza, "pincidenza(p,e): restituisce la matrice di incidenza del piano proiettivo generato dal campo F_q con q=p^e.")
+addhelp(pincidenza, "pincidenza(p,e): restituisce la matrice di incidenza del piano proiettivo finito generato dal campo F_q con q=p^e.")
 
 
 /**
