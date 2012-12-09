@@ -39,9 +39,14 @@ aincidenza(p, e) =
 
         powers = vector(n,k,2^(k-1)),
         bitmask(bits) = bits*powers~,
-        row(i) = vecextract(m[i,],bitmask(vector(n,k,m[n,k]*m[i,k]==0)))
+
+        rows = vector(n-1, i, i),
+        l = m[n,],
+        columns = bitmask(apply((x) -> !x, l)),
+
+        paq = vecextract(m, rows, columns)
     );
-    return(matrix(n-1,n-1,i,j,row(i)[j]));
+    return(paq);
 }
 
 
