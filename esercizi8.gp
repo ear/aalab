@@ -27,7 +27,7 @@ kron(a, b) =
 
 /**
  * 2. Si usi kron(•, •) per scrivere una funzione che crei H_m, con m = 2^k,
- * come in had[1].
+ * come in [1].
  *
  * [1] http://www.dm.unito.it/personalpages/cerruti/aalab/Materiali/Hadamard.pdf
  */
