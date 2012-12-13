@@ -24,3 +24,21 @@ kron(a, b) =
     return( matrix( n, m, i, j, M(i,j)) );
 }
 
+
+/**
+ * 2. Si usi kron(•, •) per scrivere una funzione che crei H_m, con m = 2^k,
+ * come in had[1].
+ *
+ * [1] http://www.dm.unito.it/personalpages/cerruti/aalab/Materiali/Hadamard.pdf
+ */
+
+h(m) =
+{
+    if( m == 1, return( Mat(1) ),
+      if( m == 2, return( [1,1;1,-1] ),
+                  return( kron( h(2), h(m-1) ) )
+      )
+    );
+}
+
+
