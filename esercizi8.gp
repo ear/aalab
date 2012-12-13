@@ -35,9 +35,9 @@ kron(a, b) =
 h(m) =
 {
     if( m == 1, return( Mat(1) ),
-      if( m == 2, return( [1,1;1,-1] ),
-                  return( kron( h(2), h(m-1) ) )
-      )
+        if( m == 2, return( [1,1;1,-1] ),
+                    return( kron( h(2), h(m-1) ) )
+        )
     );
 }
 
