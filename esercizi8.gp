@@ -18,7 +18,7 @@ kron(a, b) =
         cb = #b[1,],
         n = ra * rb,
         m = ca * cb,
-        M(i,j) = a[ floor( (i-1) / ra ) + 1, floor( (j-1) / ca ) + 1 ] *
+        M(i,j) = a[ floor( (i-1) / rb ) + 1, floor( (j-1) / cb ) + 1 ] *
                  b[ ((i-1) % rb) + 1, ((j-1) % cb) + 1 ]
     );
     return( matrix( n, m, i, j, M(i,j)) );
