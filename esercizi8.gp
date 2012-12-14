@@ -71,3 +71,32 @@ Ham(n) =
 }
 
 
+/**
+ * Si scriva hdecod(w) che riceve una stringa binaria di lunghezza 2^k e tenta
+ * di decodificarla, associandole una stringa di H_m, o dichiarando che ci sono
+ * stati troppi errori. Si confrontino i risultati con gli esempi dati per H_8
+ * in [1].
+ */
+
+hdecod(w_, verbose=0) =
+{
+    my(
+        n = #w_,
+        w = w_ * 2 + vector(n, i, -1),
+        s = w * h(n),
+        k = n/2 + 2 \\ error treshold
+    );
+    for( i = 1, n,
+        if(
+            abs(s[i]) >= k
+          ,
+            if( verbose, print("|s[", i, "]| = |", s[i], "| >= ", k) );
+            return( hcodice(n)[( sign(s[i]) * 2 % 3 % 2 ) * n + i] );
+          ,
+            if( verbose, print("|s[", i, "]| = |", s[i], "| < ", k) );
+        );
+    );
+    print( "decoding impossible: too many transmission errors have occurred." );
+}
+
+
