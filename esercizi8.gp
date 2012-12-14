@@ -32,13 +32,13 @@ kron(a, b) =
  * [1] http://www.dm.unito.it/personalpages/cerruti/aalab/Materiali/Hadamard.pdf
  */
 
-h(m) =
+h(n) =
 {
-    if( m == 1, return( Mat(1) ),
-        if( m == 2, return( [1,1;1,-1] ),
-                    return( kron( h(2), h(m-1) ) )
-        )
-    );
+    if(     n == 1 , return( Mat(1)               ),
+    if(     n == 2 , return( [1,1;1,-1]           ),
+    if( n % 2 == 0 , return( kron( h(2), h(n/2) ) ), \\ sub-optimal
+        error("n in h(n) must be a power of 2.");
+    )));
 }
 
 
@@ -49,10 +49,20 @@ h(m) =
 
 hcodice(m) =
 {
+    Ham(2*m);
+}
+
+/* In [1] il parametro è la lunghezza del codice: il doppio della dimensione
+ * della matrice.
+ */
+
+Ham(n) =
+{
     my(
-        h_m = h(m),
-        a = h_m % 3 % 2,
-        b = h_m * 2 % 3 % 2
+        n = n / 2,
+        h_n = h(n),
+        a = h_n % 3 % 2,
+        b = h_n * 2 % 3 % 2
     );
     return(concat(
         vector(#a, i, a[i,]),
