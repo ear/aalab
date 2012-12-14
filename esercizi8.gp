@@ -42,3 +42,22 @@ h(m) =
 }
 
 
+/**
+ * 3. Si scriva hcodice(m) che genera il codice binario Ham(m) formato dalle
+ * righe di H_m e -H_m trasformate in binario.
+ */
+
+hcodice(m) =
+{
+    my(
+        h_m = h(m),
+        a = h_m % 3 % 2,
+        b = h_m * 2 % 3 % 2
+    );
+    return(concat(
+        vector(#a, i, a[i,]),
+        vector(#b, i, b[i,])
+    ));
+}
+
+
