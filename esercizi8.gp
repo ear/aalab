@@ -56,13 +56,18 @@ hcodice(m) =
  * della matrice.
  */
 
-Ham(n) =
+Ham(n, verbose=0) =
 {
     my(
         n = n / 2,
         h_n = h(n),
         a = h_n % 3 % 2,
         b = h_n * 2 % 3 % 2
+    );
+    if( verbose,
+      print("\n", "Hadamard code of order ", 2*n, " (block size ", n, ")", "\n",
+            "Minimum distance: ", n/2, "\n",
+            "Can correct: ", n/4 - 1, " errors", "\n");
     );
     return(concat(
         vector(#a, i, a[i,]),
