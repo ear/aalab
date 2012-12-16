@@ -118,10 +118,10 @@ hdecod(w_, verbose=0) =
 
 hamming(a, b) =
 {
-  my( s = 0 );
-  if( #a != #b, error("different vector lengths in hamming(a,b)") );
-  for( i = 1, #a, s += a[i] != b[i] );
-  return( s );
+    my( s = 0 );
+    if( #a != #b, error("different vector lengths in hamming(a,b)") );
+    for( i = 1, #a, s += a[i] != b[i] );
+    return( s );
 }
 
 
