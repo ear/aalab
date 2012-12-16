@@ -89,19 +89,39 @@ hdecod(w_, verbose=0) =
         n = #w_,
         w = w_ * 2 + vector(n, i, -1),
         s = w * h(n),
-        k = n/2 + 2 \\ error treshold
+        t = n/4 - 1,
+        k = n - 2*t, \\ error treshold
+        v
+    );
+    if( verbose,
+      print("If there are no more than ", t, " errors:", "\n",
+            "- the zero entries become of magnitude no larger than ", 2*t, "\n",
+            "- the entry of magnitude n becomes no smaller than ", n-2*t, "\n");
     );
     for( i = 1, n,
         if(
             abs(s[i]) >= k
           ,
-            if( verbose, print("|s[", i, "]| = |", s[i], "| >= ", k) );
-            return( hcodice(n)[( sign(s[i]) * 2 % 3 % 2 ) * n + i] );
+            v = hcodice(n)[( sign(s[i]) * 2 % 3 % 2 ) * n + i];
+            if( verbose,
+              print("|s[", i, "]| = |", s[i], "| >= ", k, "\n", "\n",
+                    "Decode sucessful (", hamming(w_, v), " errors)", "\n");
+            );
+            return( v );
           ,
-            if( verbose, print("|s[", i, "]| = |", s[i], "| < ", k) );
+            if( verbose, print("|s[", i, "]| = |", s[i], "| <= ", k) );
         );
     );
-    print( "decoding impossible: too many transmission errors have occurred." );
+    print("\n", "Decode failed: more than ", t, " errors have occurred.", "\n");
+}
+
+
+hamming(a, b) =
+{
+  my( s = 0 );
+  if( #a != #b, error("different vector lengths in hamming(a,b)") );
+  for( i = 1, #a, s += a[i] != b[i] );
+  return( s );
 }
 
 
