@@ -9,15 +9,19 @@
  * il Lemma di Burnside.
  */
 
-f(n, q) =
+polcyclofactorsnum(n, p) =
 {
-    if( gcd(q,n) != 1, error("q and n must be coprime"));
-    my( p = divisors(q)[2], \\ XXX: fragile way to get p from q = p^k
-        i = 1
-    );
+    \\ the smallest i such that p^i - 1 = 0 (mod n) is the size of every orbit
+    my( i = 1 );
     while( (p^i - 1) % n, i++ );
-    return( i );
+
+    \\ the degree of the n-th cyclotomic polynomial is eulerphi(n)
+    my( d = eulerphi(n) );
+
+    \\ thus the number of its irreducible factors is
+    return( d \ i );
 }
+addhelp(polcyclofactorsnum, "polcyclofactorsnum(n,p): number of irreducible factors of the n-th cyclotomic polynomial over F_p[x]");
 
 vecsum(v) =
 {
@@ -26,12 +30,22 @@ vecsum(v) =
 
 kesava(n, q) =
 {
-    my( p = divisors(q)[2], \\ XXX: only used in the factormod check (1)
-        ds = divisors(n), \\ divisors
-        os = apply( ((d) -> floor(eulerphi(d)/f(d, q))), ds )     \\ orders
+    my( p = 0 );
+    if( isprime( q ), p = q,
+    if( !ispower( q, , &p ) || !isprime( p ), error("q is not a prime power") );
     );
-    print(length(factormod( x^n - 1, p )[,2])); \\ XXX: (1)
-    return( vecsum(os) );
+
+    print(p);
+    if( gcd( n, q ) != 1 , error("n and q must be coprime") );
+
+    /*  x^n - 1 factors into a product of d-th cyclotomic polynomials where  *
+     *  d runs on the divisors of n, so here is a vector of the number of    *
+     *  the irreducible factors of said cyclotomic polynomials over F_p[x]   */
+
+    my( numirr = apply( ((d) -> polcyclofactorsnum(d, p)), divisors(n) ) );
+
+    return( vecsum( numirr ) );
 }
+addhelp(kesava, "kesava(n,q): number of irreducible factors of x^n - 1 over F_q[x] for coprime n, q and q (q a prime power.)");
 
 
