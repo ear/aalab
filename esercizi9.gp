@@ -52,4 +52,26 @@ kesava(n, q) =
 }
 addhelp(kesava, "kesava(n,q): number of irreducible factors of x^n - 1 over F_q[x] for coprime n, q and q (q a prime power.)");
 
+/* Some tests.
+ */
+
+/* How the number of irreducible factors over F_q[x] of cyclotomic polynomials
+ * varies as the exponent e grows in p^e = q.
+ */
+
+test(p, maxd=30, maxe=10) = \\ maxd(egree) and maxe(xponent)
+{
+    matrix(maxe, maxd, i, j, if( gcd(j, p^i) == 1, kesava( j, p^i ) ));
+}
+
+/* Number of monic irreducible polinomials of degree n over F_q[x].
+ */
+
+test2(n, q) =
+{
+    return( vecsum( apply(
+        ( (d) -> moebius(n/d) * q^d ),
+        divisors(n) ) ) / n );
+}
+
 
