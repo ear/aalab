@@ -101,4 +101,48 @@ laterali(n, q, verbose=0) =
     return( c1 );
 }
 
+laterale(n, q, l) =
+{
+    my(
+        powers = vector(n, k, 2^(k-1)),
+        bitmask(bits) = bits*powers~,
+        cosets = laterali(n, q),
+        i = cosets[ l + 1 ],
+        coset(i) = vecextract(
+            vector(n,i,i-1),
+            bitmask(
+                apply( ((x) -> x == i), cosets )
+            )
+        )
+    );
+    return( coset(i) );
+}
+
+
+/**
+ * 3. Scrivere una funzione irrnql(n,p,l) che, dati n,p,l con 0 ≤ l ≤ n-1,
+ * calcola il fattore irriducibile di x^n - 1 in F_p[x] corrispondente all'unico
+ * laterale ciclotomico a cui l appartiene.
+ */
+
+vecprod(v) =
+{
+    prod( i=1, #v, v[i] );
+}
+
+irrnql(n, p, l) =
+{
+    my( h = 1 );
+    while( (p^h - 1) % n, h++ );
+    my( f = primpoly(p, h, t),
+        m = (p^h - 1) / n,
+        alpha = Mod(t^m, f)
+    );
+    my(
+        coset = laterale(n, p, l),
+        factors = apply( ((i) -> x - alpha^i), coset )
+    );
+    return( vecprod( factors ) );
+}
+
 
