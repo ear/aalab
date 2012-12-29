@@ -71,3 +71,34 @@ numirrpol(n, q) =
 addhelp(numirrpol, "numirrpol(n,q): number of monic irreducible polynomials of degree n over F_q[x].")
 
 
+/**
+ * 2. Scrivere una funzione laterali(n,q), che calcola i laterali ciclotomici,
+ * corrispondenti alle classi ciclotomiche delle radici n-esime dell'unità su
+ * F_q.
+ */
+
+laterali(n, q, verbose=0) =
+{
+    my( c1 = vector(n, i, -1) );
+    if( verbose, print("i -> cyclotomic cosets") );
+
+    /* As shown by calling the function with the verbose parameter 1, it does
+     * do some more work than strictly needed, in exchange for the minimal
+     * complete set of representatives of cyclotomic cosets of q modulo n.
+     * (An optimization is possible for n = q^m - 1 for some m.)
+     */
+
+    forstep( i = n-1, 0, -1,
+        c1[ (i*q^0 % n) + 1 ] = i;
+        my( j = 1, iq0 = i*q^0 );
+        while( (i*q^j % n) != iq0,
+            c1[ (i*q^j % n) + 1 ] = i;
+            j++;
+        );
+        if( verbose, print(i, " -> ", c1) );
+    );
+
+    return( c1 );
+}
+
+
