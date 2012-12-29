@@ -26,14 +26,14 @@ polcyclofactorsnum(n, q) =
     \\ thus the number of its irreducible factors is
     return( d \ i );
 }
-addhelp(polcyclofactorsnum, "polcyclofactorsnum(n,p): number of irreducible factors of the n-th cyclotomic polynomial over F_p[x]");
+addhelp(polcyclofactorsnum, "polcyclofactorsnum(n,p): number of irreducible factors of the n-th cyclotomic polynomial over F_p[x].");
 
 vecsum(v) =
 {
     sum( i=1, #v, v[i] );
 }
 
-kesava(n, q) =
+kesava(n, q, verbose=0) =
 {
     my( p = 0 );
     if( isprime( q ), p = q,
@@ -48,30 +48,26 @@ kesava(n, q) =
 
     my( numirr = apply( ((d) -> polcyclofactorsnum(d, q)), divisors(n) ) );
 
+    if( verbose, print( divisors(n), "\n", numirr ) );
+
     return( vecsum( numirr ) );
 }
-addhelp(kesava, "kesava(n,q): number of irreducible factors of x^n - 1 over F_q[x] for coprime n, q and q (q a prime power.)");
+addhelp(kesava, "kesava(n,q): number of irreducible factors of x^n - 1 over F_q[x] for coprime n, q.");
 
-/* Some tests.
- */
+/* Some tests */
 
-/* How the number of irreducible factors over F_q[x] of cyclotomic polynomials
- * varies as the exponent e grows in p^e = q.
- */
-
-test(p, maxd=30, maxe=10) = \\ maxd(egree) and maxe(xponent)
+kesava_table(p, max_n=30, max_e=10) =
 {
-    matrix(maxe, maxd, i, j, if( gcd(j, p^i) == 1, kesava( j, p^i ) ));
+    matrix(max_e, max_n, i, j, if( gcd(j, p^i) == 1, kesava( j, p^i ) ));
 }
+addhelp(kesava_table, "kesava_table(p,max_n=30,max_e=10): the number of irreducible factors of the n-th cyclotomic polynomial (1 ≤ n ≤ max_n, rows) over F_(p^e)[x] (1 ≤ e ≤ max_e, columns).")
 
-/* Number of monic irreducible polinomials of degree n over F_q[x].
- */
-
-test2(n, q) =
+numirrpol(n, q) =
 {
-    return( vecsum( apply(
-        ( (d) -> moebius(n/d) * q^d ),
-        divisors(n) ) ) / n );
+    return(
+        vecsum( apply( ( (d) -> moebius(n/d) * q^d ), divisors(n) ) ) / n
+    );
 }
+addhelp(numirrpol, "numirrpol(n,q): number of monic irreducible polynomials of degree n over F_q[x].")
 
 
