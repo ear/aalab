@@ -146,3 +146,39 @@ irrnql(n, p, l) =
 }
 
 
+/**
+ * 4. Scrivere una funzione circolgrorder(n,q) che restituisce l'ordine del
+ * gruppo moltiplicativo di R_{n,q} = F_q[x] / ( x^n - 1 ).
+ */
+
+circolgrorder(n, q) =
+{
+    /* R a ring w/ 1, A_1,…,A_n pairwise coprime ideals
+     * (i.e. i =/= j => (A_i) + (A_j) = R) then
+     *
+     *     R / ( A_1 ∩ … ∩ A_n )  ≃  (R / A_1) ⨯ … ⨯ (R / A_n)
+     *
+     * in particular for R = F_p[x] and A_i = (m_i(x))
+     * where m_i runs through the irreducible factors of x^n - 1 over F_p[x]
+     * i.e. i runs through a complete system of cyclotomic coset representatives
+     * each factor of the product of rings is a field
+     * and the number of invertibles of R_{n,q} is
+     *
+     *     \prod_{i} deg( m_i(x) ) - 1  =  \prod_{i} |C_i| - 1
+     *
+     * where C_i is the unique cyclotomic coset of q modulo n containing i
+     */
+
+    my(
+        cosets = vecsort(laterali(n,q)), \\ sort the system of representatives
+        p = -1, \\ fake representative to skip 0
+        t = 0 \\ accumulate (for each representative) sum of repetitions - 1
+    );
+    for( i=1, #cosets,
+        if( cosets[i] == p, t++ );
+        p = cosets[i];
+    );
+    return( t );
+}
+
+
