@@ -137,7 +137,7 @@ irrnql(n, p, l) =
      */
 
     my( h = 1 );
-    while( (p^h - 1) % n, h++ ); 
+    while( (p^h - 1) % n, h++ );
 
     /* Pick a primitive n-th root of unity α to generate the whole F_(p^h).
      */
