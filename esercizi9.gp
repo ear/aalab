@@ -132,12 +132,28 @@ vecprod(v) =
 
 irrnql(n, p, l) =
 {
+    /* Find a suitable extension F_(p^h) such that
+     * n divides the order of its multiplicative group.
+     */
+
     my( h = 1 );
-    while( (p^h - 1) % n, h++ );
+    while( (p^h - 1) % n, h++ ); 
+
+    /* Pick a primitive n-th root of unity α to generate the whole F_(p^h).
+     */
+
     my( f = primpoly(p, h, t),
         m = (p^h - 1) / n,
         alpha = Mod(t^m, f)
     );
+
+    /* If M_l(x) is the minimal polynomial of α^l then
+     *
+     *     M_l(x) = \prod_{i in C_l} (x - α^i)
+     *
+     * where C_l is the unique cycolotomic coset containing l.
+     */
+
     my(
         coset = laterale(n, p, l),
         factors = apply( ((i) -> x - alpha^i), coset )
@@ -170,9 +186,9 @@ circolgrorder(n, q) =
      */
 
     my(
-        cosets = vecsort(laterali(n,q)), \\ sort the system of representatives
+        cosets = vecsort( laterali(n,q) ), \\ sort the system of representatives
         p = -1, \\ fake representative to skip 0
-        t = 0 \\ accumulate (for each representative) sum of repetitions - 1
+        t = 0   \\ accumulate (for each representative) sum of repetitions - 1
     );
     for( i=1, #cosets,
         if( cosets[i] == p, t++ );
