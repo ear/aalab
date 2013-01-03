@@ -79,42 +79,60 @@ addhelp(numirrpol, "numirrpol(n,q): number of monic irreducible polynomials of d
 
 laterali(n, q, verbose=0) =
 {
-    my( c1 = vector(n, i, -1) );
-    if( verbose, print("i -> cyclotomic cosets") );
-
-    /* As shown by calling the function with the verbose parameter 1, it does
-     * do some more work than strictly needed, in exchange for the minimal
-     * complete set of representatives of cyclotomic cosets of q modulo n.
-     * (An optimization is possible for n = q^m - 1 for some m.)
+    /* As shown by calling the function with the verbose parameter non-zero,
+     * it does do some extra work than strictly needed. In exchange we get
+     * the minimal complete set of representatives of cyclotomic cosets
+     * of q modulo n (an optimization is possible for n = q^m - 1 for some m.)
      */
 
+    my(                       \\ "c" for cosets and
+        c1 = vector(n, i, -1) \\ "1" as aid to remember that vectors are 1-based
+    );
+
+    if( verbose, print("i -> cyclotomic cosets") );
+
     forstep( i = n-1, 0, -1,
-        c1[ (i*q^0 % n) + 1 ] = i;
-        my( j = 1, iq0 = i*q^0 );
+        c1[ (i*q^0 % n) + 1 ] = i; \\ set the first element of the coset
+        my(
+            j = 1,
+            iq0 = i*q^0 \\ just for readability
+        );
         while( (i*q^j % n) != iq0,
             c1[ (i*q^j % n) + 1 ] = i;
             j++;
         );
-        if( verbose, print(i, " -> ", c1) );
+        if( verbose, print(i, " -> ", c1) ); \\ show the intermediate steps
     );
 
     return( c1 );
 }
+addhelp(laterali, "laterali(n,q,{verbose=0}): returns a vector of length n whose (i+1)-th element is the number of the cyclotomic coset of which 0 ≤ i ≤ n-1 is a member.")
 
 laterale(n, q, l) =
 {
+    /* powers, bitmask(…):
+     *
+     *     helpers to create a bitmask to use with vecextract(…)
+     *
+     * coset(k):
+     *
+     *     extracts the members of C_k from the vector laterali(n,q)
+     */
+
     my(
         powers = vector(n, k, 2^(k-1)),
         bitmask(bits) = bits*powers~,
+
         cosets = laterali(n, q),
-        i = cosets[ l + 1 ],
-        coset(i) = vecextract(
-            vector(n,i,i-1),
-            bitmask(
-                apply( ((x) -> x == i), cosets )
-            )
+
+        coset(k) = vecextract(
+            vector(n,k,k-1),                            \\ representatives
+            bitmask( apply( ((x) -> x == k), cosets ) ) \\ positions
         )
+
+        i = cosets[ l + 1 ]
     );
+
     return( coset(i) );
 }
 
