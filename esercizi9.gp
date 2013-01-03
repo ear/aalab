@@ -125,10 +125,10 @@ laterale(n, q, l) =
 
         cosets = laterali(n, q),
 
-        coset(k) = vecextract(
-            vector(n,k,k-1),                            \\ representatives
-            bitmask( apply( ((x) -> x == k), cosets ) ) \\ positions
-        )
+        representatives = vector(n, k, k-1),
+        positions(k) = apply( ((x) -> x == k), cosets ),
+
+        coset(k) = vecextract( representatives, bitmask( positions(k) ) ),
 
         i = cosets[ l + 1 ]
     );
