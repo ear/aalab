@@ -160,7 +160,8 @@ irrnql(n, p, l) =
     /* Pick a primitive n-th root of unity α to generate the whole F_(p^h).
      */
 
-    my( f = primpoly(p, h, t),
+    my(
+        f = primpoly(p, h, t),
         m = (p^h - 1) / n,
         alpha = Mod(t^m, f)
     );
