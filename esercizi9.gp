@@ -32,6 +32,7 @@ vecsum(v) =
 {
     sum( i=1, #v, v[i] );
 }
+addhelp(vecsum, "vecsum(x): the sum of the elements of the vector x.");
 
 kesava(n, q, verbose=0) =
 {
@@ -68,7 +69,7 @@ numirrpol(n, q) =
         vecsum( apply( ( (d) -> moebius(n/d) * q^d ), divisors(n) ) ) / n
     );
 }
-addhelp(numirrpol, "numirrpol(n,q): number of monic irreducible polynomials of degree n over F_q[x].")
+addhelp(numirrpol, "numirrpol(n,q): number of monic irreducible polynomials of degree n over F_q[x].");
 
 
 /**
@@ -106,7 +107,7 @@ laterali(n, q, verbose=0) =
 
     return( c1 );
 }
-addhelp(laterali, "laterali(n,q,{verbose=0}): returns a vector of length n whose (i+1)-th element is the number of the cyclotomic coset of which 0 ≤ i ≤ n-1 is a member.")
+addhelp(laterali, "laterali(n,q,{verbose=0}): a vector of length n whose (i+1)-th element is the number of the cyclotomic coset of which 0 ≤ i ≤ n-1 is a member.");
 
 laterale(n, q, l) =
 {
@@ -135,6 +136,7 @@ laterale(n, q, l) =
 
     return( coset(i) );
 }
+addhelp(laterale, "laterale(n,q,l): the l-th cyclotomic coset of q modulo n.")
 
 
 /**
@@ -147,6 +149,7 @@ vecprod(v) =
 {
     prod( i=1, #v, v[i] );
 }
+addhelp(vecprod, "vecprod(x): sum of the elements of the vector x.");
 
 irrnql(n, p, l) =
 {
@@ -179,6 +182,7 @@ irrnql(n, p, l) =
     );
     return( vecprod( factors ) );
 }
+addhelp(irrnql, "irrnql(n,p,l): the irreducible factor over F_p[x] of x^n - 1 corresponding to the l-th cyclotomic coset of p modulo n.");
 
 
 /**
@@ -215,5 +219,6 @@ circolgrorder(n, q) =
     );
     return( t );
 }
+addhelp(circolgrorder, "circolgrorder(n,q): the order of the multiplicative group of the ring F_q[x] / (x^n - 1).")
 
 
