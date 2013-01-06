@@ -222,3 +222,55 @@ circolgrorder(n, q) =
 addhelp(circolgrorder, "circolgrorder(n,q): the order of the multiplicative group of the ring F_q[x] / (x^n - 1).")
 
 
+/**
+ * 5. Calcolare gli idempotenti minimali di R_{13,5}.
+ */
+
+cycreprs(n,q) =
+{
+    my(
+        cosets = laterali(n,q),
+        s = List([]),
+        lastc = -1,
+        c,
+        i = 1
+    );
+    while( i < #cosets,
+        c = cosets[i];
+        if( lastc < c, listput(s, c); lastc = c; );
+        i++;
+    );
+    return( Vec(s) );
+}
+addhelp(cycreprs, "cycreprs(n,q): complete set of representatives for the cyclotomic cosets of q modulo n.");
+
+Polpow(powers, v=x) =
+{
+    if( powers == [], return( 0 ); );
+    my(
+        pol = 0;
+    );
+    for( i = 1, #powers,
+        pol += v^powers[i];
+    );
+    return( pol );
+}
+addhelp(Polpow, "Polpow(powers,{v=x}): a polynomial with variable v appearing only in the specified powers.");
+
+mincycids(n,q) =
+{
+    my(
+        reprs = cycreprs(n,q)
+    );
+    return(
+        apply( (l) -> Polpow( laterale(n,q,l) ), reprs )
+    );
+}
+addhelp(mincycids, "mincycids(n,q): minimal idempotents of the ring F_q[x] / (x^n - 1).")
+
+esercizio5() =
+{
+    return( mincycids( 13, 5 ) );
+}
+
+
