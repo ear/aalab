@@ -75,10 +75,10 @@ addhelp(numirrpol, "numirrpol(n,q): number of monic irreducible polynomials of d
 
 laterali(n, q, verbose=0) =
 {
-    /* As shown by calling the function with the verbose parameter non-zero,
-     * it does do some extra work than strictly needed. In exchange we get
-     * the minimal complete set of representatives of cyclotomic cosets
-     * of q modulo n (an optimization is possible for n = q^m - 1 for some m.)
+    /* Calling the function with a non-zero verbose parameter shows intermediate
+     * steps: it does do some extra work than strictly needed and in exchange we
+     * get the minimal complete set of representatives of cyclotomic cosets of q
+     * modulo n (an optimization is possible for n = q^m - 1 for some m.)
      */
 
     my(                       \\ "c" for cosets and
@@ -106,13 +106,8 @@ addhelp(laterali, "laterali(n,q,{verbose=0}): a vector of length n whose (i+1)-t
 
 laterale(n, q, l) =
 {
-    /* powers, bitmask(…):
-     *
-     *     helpers to create a bitmask to use with vecextract(…)
-     *
-     * coset(k):
-     *
-     *     extracts the members of C_k from the vector laterali(n,q)
+    /* powers, bitmask(…): helpers to create vecextract(…) bitmasks
+     * coset(k): extracts the members of C_k from the vector laterali(n,q)
      */
 
     my(
@@ -131,7 +126,7 @@ laterale(n, q, l) =
 
     return( coset(i) );
 }
-addhelp(laterale, "laterale(n,q,l): the l-th cyclotomic coset of q modulo n.")
+addhelp(laterale, "laterale(n,q,l): the l-th cyclotomic coset of q modulo n (0 ≤ l ≤ n-1.)")
 
 
 /**
