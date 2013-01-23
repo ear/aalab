@@ -216,51 +216,71 @@ addhelp(circolgrorder, "circolgrorder(n,q): the order of the multiplicative grou
  * 5. Calcolare gli idempotenti minimali di R_{13,5}.
  */
 
-cycreprs(n,q) =
+foldr_( f, z, xs ) =
+{
+    my( x );
+    if( #xs == 0,
+        z,
+        x = xs[1]; listpop( xs, 1 ); return( f( x, foldr_( f, z, xs ) ) );
+    );
+}
+
+foldr(f, z, xs) = return( foldr_( f, z, List(xs) ) );
+
+foldr1(f, xs) =
+{
+    my( x = xs[1] );
+    xs = vecextract( xs, "2.." );
+    return( foldr(f, x, xs) );
+}
+
+labels( n, q ) =
+{
+    my( l = 0, ls = List([l]), cosets = laterali( n, q ) );
+
+    for( i = 1, #cosets,
+        if( cosets[i] > l,
+            l = cosets[i]; listput(ls, l),
+        );
+    );
+
+    return( Vec(ls) );
+}
+
+rotations( xs ) = vector( #xs, i, rotate( xs, i ) );
+
+rotate( xs, i ) =
 {
     my(
-        cosets = laterali(n,q),
-        s = List([]),
-        lastc = -1,
-        c,
-        i = 1
+        n = #xs,
+        r = matrix( n, n, i, j, (i-1)-j % n == 0 )
     );
-    while( i < #cosets,
-        c = cosets[i];
-        if( lastc < c, listput(s, c); lastc = c; );
-        i++;
-    );
-    return( Vec(s) );
+    return( ( r^i * xs~ )~ );
 }
-addhelp(cycreprs, "cycreprs(n,q): complete set of representatives for the cyclotomic cosets of q modulo n.");
 
-Polpow(powers, v=x) =
+idempotent( xs, j ) =
 {
-    if( powers == [], return( 0 ); );
-    my(
-        pol = 0;
+    for( i = 1, #xs,
+        xs[i] = Mod(i==j, xs[i]);
     );
-    for( i = 1, #powers,
-        pol += v^powers[i];
-    );
-    return( pol );
+    return( xs );
 }
-addhelp(Polpow, "Polpow(powers,{v=x}): a polynomial with variable v appearing only in the specified powers.");
 
-mincycids(n,q) =
+idempotents( n, q, prettyprint=0 ) =
 {
     my(
-        reprs = cycreprs(n,q)
+        L = labels( n, q ),
+        M = apply( (l) -> irrnql( n, q, l ), L ),
+        Mr = rotations( M ),
+        E = apply( (mr) -> idempotent(mr, 1), Mr ),
+        RE = apply( (e) -> foldr1( chinese, e ), E )
     );
-    return(
-        apply( (l) -> Polpow( laterale(n,q,l) ), reprs )
+    if( prettyprint,
+        Mat(lift(lift(lift(RE)))~),
+        return( RE );
     );
 }
-addhelp(mincycids, "mincycids(n,q): minimal idempotents of the ring F_q[x] / (x^n - 1).")
 
-esercizio5() =
-{
-    return( mincycids( 13, 5 ) );
-}
+esercizio5() = idempotents(13,5,1);
 
 
