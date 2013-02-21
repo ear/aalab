@@ -141,6 +141,17 @@ vecprod(v) =
 }
 addhelp(vecprod, "vecprod(x): sum of the elements of the vector x.");
 
+primpoly(p, n, var) =
+{
+  my(
+    s = divisors(p^n - 1),
+    f = var^(p^n - 1) - 1
+  );
+  for( k = 1, #s - 1, f = f / gcd(f, var^s[k] - 1) );
+  return( factormod( f, p )[1, 1] );
+}
+addhelp(primpoly, "primpoly(p,n,{var=x}): primitive polynomial of degree n of F_p[var].");
+
 irrnql(n, p, l) =
 {
     /* Find a suitable extension F_(p^h) such that
